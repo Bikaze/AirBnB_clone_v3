@@ -158,6 +158,7 @@ Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twit
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
 
 Clement MUGISHA - [Github](https://github.com/Bikaze)
+Poli Ninshuti Ndiramiye - [Github](https://github.com/Mr-Ndi)
 
 Second part of Airbnb: Joann Vuong
 ## License
