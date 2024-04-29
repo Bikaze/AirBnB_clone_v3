@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-"""Place views module."""
+"""An end point for place"""
 from flask import jsonify, request, abort
 from api.v1.views import app_views
 from models import storage
-from models.city import City
 from models.place import Place
+from models.city import City
 from models.user import User
 
 
@@ -75,3 +75,4 @@ def update_place(place_id):
             setattr(place, key, value)
     storage.save()
     return jsonify(place.to_dict()), 200
+
