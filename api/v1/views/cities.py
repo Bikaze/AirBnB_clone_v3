@@ -5,6 +5,7 @@ from flask import abort, jsonify, request
 from models import storage
 from models.city import City
 
+
 @app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'])
 def state_cities(state_id=None):
     """cities in a state"""
@@ -14,7 +15,8 @@ def state_cities(state_id=None):
 
     if request.method == 'GET':
         all_cities = storage.all('City')
-        state_ctys = [obj.to_dict() for obj in all_cities.values() if obj.state_id == state_id]
+        state_ctys = [obj.to_dict() for obj in all_cities.values()
+                      if obj.state_id == state_id]
         return jsonify(state_ctys)
 
     if request.method == 'POST':
@@ -27,6 +29,7 @@ def state_cities(state_id=None):
         new_obj = City(**req_json)
         new_obj.save()
         return jsonify(new_obj.to_dict()), 201
+
 
 @app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT'])
 def cities_with_id(city_id=None):
