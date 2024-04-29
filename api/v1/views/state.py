@@ -1,19 +1,20 @@
 #!/usr/bin/python3
-"""a new view for State objects"""
-from flask import jsonify, abort, request
+"""An end point for usr"""
 from api.v1.views import app_views
+from flask import jsonify, request, abort
+from models import storage
+from models.state import State
 
-@app_views.routes('/state', methods=['GET'])
-def get_state():
-    """returning all states"""
-    States = State.all()
-    retun jsonify([State.to_dict() for State in States])
 
-@app_views.routes('/state/<int:id>', methods=['GET'])
-def get_state(id):
-    """retriving state basing on id"""
-    St = state.get(id)
-    if st is None:
-        return(404)
-    return jsonify(st.to_dict())
-
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
+def get_state(state_id=None):
+    """a function to retrieve user from the database"""
+    if state_id is None:
+        states = storage.all(State)
+        state_list = [state.to_dict() for state in states.values()]
+        return jsonify(state_list)
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
+    return jsonify(state.to_dict())
