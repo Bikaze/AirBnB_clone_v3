@@ -2,7 +2,7 @@
 """Returning the status of the api"""
 from api.v1.views import app_views
 from flask import jsonify
-from api.v1.views import app
+from models import storage
 
 
 @app_views.route('/status', methods=['GET'])
@@ -11,15 +11,15 @@ def status():
     return jsonify({"status": "OK"})
 
 
-@app.route('/api/v1/stats')
-def numbers():
+@app_views.route('/stats', methods=['GET'])
+def get_starts():
     """retrieving the number of each objects by type"""
-    objects_count = {
+    return jsonify(
+        {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
         "places": storage.count("Place"),
         "reviews": storage.count("Review"),
         "states": storage.count("State"),
         "users": storage.count("User")
-    }
-    return jsonify(objects_count)
+        })
