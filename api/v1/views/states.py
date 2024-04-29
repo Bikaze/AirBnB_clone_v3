@@ -6,8 +6,8 @@ from models import storage
 from models.state import State
 
 
-@app_views.route('/states', methods=['GET'], strict_slashes=False)
-@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/states', methods=['GET'])
+@app_views.route('/states/<state_id>', methods=['GET'])
 def get_state(state_id=None):
     """a function to retrieve user from the database"""
     if state_id is None:
@@ -20,7 +20,7 @@ def get_state(state_id=None):
     return jsonify(state.to_dict())
 
 
-@app_views.route('states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('states/<state_id>', methods=['DELETE'])
 def delete_state(state_id=None):
     """A function to delete the state"""
     state = storage.get("State", state_id)
@@ -31,7 +31,7 @@ def delete_state(state_id=None):
     abort(404)
 
 
-@app_views.route('/states', methods=['POST'], strict_slashes=False)
+@app_views.route('/states', methods=['POST'])
 def post_state():
     """a function to create state"""
     data = request.get_json()
@@ -44,7 +44,7 @@ def post_state():
     return jsonify(new_state.to_dict()), 201
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['PUT'])
 def update_state(state_id):
     """Update a State object by ID"""
     state = storage.get(State, state_id)
