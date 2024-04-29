@@ -8,3 +8,17 @@ from flask import jsonify
 def status():
     """handles the status route"""
     return jsonify({"status": "OK"})
+
+
+@app.route('/api/v1/stats')
+def numbers():
+    """retrieving the number of each objects by type"""
+    objects_count = {
+        "amenities": storage.count("Amenity"),
+        "cities": storage.count("City"),
+        "places": storage.count("Place"),
+        "reviews": storage.count("Review"),
+        "states": storage.count("State"),
+        "users": storage.count("User")
+    }
+    return jsonfy(objects_count)
