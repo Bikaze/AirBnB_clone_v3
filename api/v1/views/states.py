@@ -20,10 +20,10 @@ def get_state(state_id=None):
     return jsonify(state.to_dict())
 
 
-@app_views.route('states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id=None):
     """a function that delete the object db"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state is not None:
         storage.delete(state)
         storage.save()
