@@ -78,5 +78,6 @@ def update_place(place_id):
     for key, value in data.items():
         if key not in ['id', 'user_id', 'city_id', 'created_at', 'updated_at']:
             setattr(place, key, value)
+    place.city_id = data.get('city_id', place.city_id)  # Update city_id
     storage.save()
     return jsonify(place.to_dict()), 200
