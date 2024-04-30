@@ -20,7 +20,7 @@ def not_found(error):
 
 @app.errorhandler(400)
 def bad_request(error):
-    return make_response(jsonify({'error': error.description}), 400)
+    return make_response(jsonify({'error': "Not a JSON"}), 400)
 
 
 @app.teardown_appcontext
