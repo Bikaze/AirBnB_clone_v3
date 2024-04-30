@@ -6,7 +6,8 @@ from models import storage
 from models.review import Review
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['GET', 'POST'])
+@app_views.route('/places/<place_id>/reviews', methods=['GET', 'POST'],
+                 strict_slashes=False)
 def reviews_per_place(place_id=None):
     """reviews route to handle http method for requested reviews by place"""
     place_obj = storage.get('Place', place_id)
@@ -15,7 +16,7 @@ def reviews_per_place(place_id=None):
         if place_obj is None:
             abort(404, 'Not found')
         all_reviews = storage.all('Review')
-        place_reviews = [obj.to_json() for obj in all_reviews.values()
+        place_reviews = [obj.to_dict() for obj in all_reviews.values()
                          if obj.place_id == place_id]
         return jsonify(place_reviews)
 
@@ -36,10 +37,11 @@ def reviews_per_place(place_id=None):
         req_json['place_id'] = place_id
         new_object = Review(**req_json)
         new_object.save()
-        return jsonify(new_object.to_json()), 201
+        return jsonify(new_object.to_dict()), 201
 
 
-@app_views.route('/reviews/<review_id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('/reviews/<review_id>', methods=['GET', 'DELETE', 'PUT'],
+                 strict_slashes=False)
 def reviews_with_id(review_id=None):
     """reviews route to handle http methods for given review by ID"""
     review_obj = storage.get('Review', review_id)
@@ -47,7 +49,7 @@ def reviews_with_id(review_id=None):
     if request.method == 'GET':
         if review_obj is None:
             abort(404, 'Not found')
-        return jsonify(review_obj.to_json())
+        return jsonify(review_obj.to_dict())
 
     if request.method == 'DELETE':
         if review_obj is None:
@@ -62,5 +64,8 @@ def reviews_with_id(review_id=None):
         req_json = request.get_json()
         if req_json is None:
             abort(400, 'Not a JSON')
-        review_obj.bm_update(req_json)
-        return jsonify(review_obj.to_json()), 200
+        for key, value in data.items():
+            if key not in ['id', 'user_id', 'place_id', 'created_at', 'updated_at']:
+                setattr(review_obj, key, value)
+        storage.save()
+        return jsonify(review_obj.to_dict()), 200
