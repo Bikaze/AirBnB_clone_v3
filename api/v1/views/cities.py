@@ -6,7 +6,8 @@ from models import storage
 from models.city import City
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'])
+@app_views.route('/states/<state_id>/cities',
+                 methods=['GET', 'POST'], strict_slashes=False)
 def state_cities(state_id=None):
     """cities in a state"""
     state = storage.get('State', state_id)
@@ -31,7 +32,8 @@ def state_cities(state_id=None):
         return jsonify(new_obj.to_dict()), 201
 
 
-@app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT'])
+@app_views.route('/cities/<city_id>',
+                 methods=['GET', 'DELETE', 'PUT'], strict_slashes=False)
 def cities_with_id(city_id=None):
     """get, update or delete a given city"""
     city_obj = storage.get('City', city_id)
