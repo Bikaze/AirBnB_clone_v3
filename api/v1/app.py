@@ -2,11 +2,13 @@
 """This is the Flask App to make the HBnB(AirBnB clone) alive"""
 from flask import Flask, make_response, jsonify
 from models import storage
+from flask_cors import CORS
 from api.v1.views import app_views
 import os
 
 app = Flask(__name__)
 
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 HOST = os.getenv('HBNB_API_HOST', '0.0.0.0')
 PORT = os.getenv('HBNB_API_PORT', 5000)
 
